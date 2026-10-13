@@ -1,0 +1,19 @@
+# Netlify 部署配置 —— 纯静态站点，无需构建
+# 上传/连接本目录后，Netlify 会自动读取本文件
+
+[build]
+  publish = "."
+
+# 图片内容不会变，让浏览器和 CDN 长期缓存（换图时改名即可，例如 shot-1-v2.png）
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
+
+# 安全响应头（HTML 不做缓存，保证你更新后访客立刻看到新版）
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
